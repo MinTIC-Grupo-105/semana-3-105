@@ -2,6 +2,9 @@
 debe importar como se observa en la siguiente linea, con el nombre del archivo js
 que contiene la logica */
 //const controller = require('./controller/nombredelcontrollador.js');
+
+//Se crea rama con nombre ruta para empezara trabajar esta parte del loguin
+
 const express = require('express');
 const db = require('./models');
 const app = express()
