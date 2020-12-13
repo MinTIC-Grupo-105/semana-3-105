@@ -5,10 +5,16 @@ que contiene la logica */
 
 //Se crea rama con nombre ruta para empezara trabajar esta parte del loguin
 
+
+const morgan = require('morgan');
+//const apiRouter = require('./routes')
 const express = require('express');
 const db = require('./models');
 const app = express()
 const bodyParser = require('body-parser');
+
+app.use(morgan('dev'));
+//app.get('/api', apiRouter);
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -19,6 +25,18 @@ app.use(function(req, res, next) {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get('/api/users', (req, res) => {
+    db.user.findAll().then(users => res.json(users))
+   });
+
+//app.post('/api/auth/signin', controller.signin);
+
+app.get('/', function(req, res) {
+ db.user.findAll().then(users => res.json(users))
+});
+
+  
+
 // API ENDPOINTS
 /*se debe contar un una ruta por medio de método post para el inicio de sesión de la siguiente manera:
 '/api/auth/signin'
@@ -27,6 +45,7 @@ app.get('/', function(req, res) {
     console.log("Estructura base del proyecto backend");
     res.send("Estructura base del proyecto backend");
 });
+
 const port = 3000
 app.listen(port, () => {
     console.log(`Running on http://localhost:${port}`)
