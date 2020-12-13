@@ -1,14 +1,14 @@
 
 const router = require('express').Router();
 //con modelos
-const { User } = require('../../models');
+const models = require('../../models');
 //con controladores
-//const userController = require('../../controllers/UserController.js');
+const userController = require('../../controllers/UserController.js');
 const bcrypt = require('bcryptjs');
 
 //api/user/
 router.get('/', async(req, res)=>{
-    const user = await User.findAll();
+    const user = await models.user.findAll();
     res.status(200).json(user);
 });
 
@@ -16,8 +16,10 @@ router.get('/', async(req, res)=>{
 router.post('/register', async(req, res)=>{
     //encriptar contraseña
     req.body.password = bcrypt.hashSync(req.body.password, 10);
-    const user = await User.create(req.body);
+    const user = await models.user.create(req.body);
     res.status(200).json(user);
 });
+//el metodo del controlador no es login sino signin
+router.post('/signin', userController.signin); 
 
 module.exports = router;
